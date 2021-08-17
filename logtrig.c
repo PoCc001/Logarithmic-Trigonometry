@@ -8,27 +8,32 @@
 #include <math.h>
 #include "logtrig.h"
 
-const long double PIL = acosl(1.0l);
-const long double HPIL = PIL * 0.5l;
-const long double QPIL = PIL * 0.25l;
-const double PI = (double)(PIL);
-const double HPI = PI * 0.5;
-const double QPI = PI * 0.25;
-const float PIF = (float)(PIL);
-const float HPIF = PIF * 0.5f;
-const float QPIF = PIF * 0.25f;
+#define INLINE_PI 3.1415926535897932384626
+
+const long double PIL = (long double)(INLINE_PI);
+const long double HPIL = (long double)(INLINE_PI) * 0.5l;
+const long double QPIL = (long double)(INLINE_PI) * 0.25l;
+const long double TQPIL = (long double)(INLINE_PI) * 0.75l;
+const double PI = (double)(INLINE_PI);
+const double HPI = (double)(INLINE_PI) * 0.5;
+const double QPI = (double)(INLINE_PI) * 0.25;
+const double TQPI = (double)(INLINE_PI) * 0.75;
+const float PIF = (float)(INLINE_PI);
+const float HPIF = (float)(INLINE_PI) * 0.5f;
+const float QPIF = (float)(INLINE_PI) * 0.25f;
+const float TQPIF = (float)(INLINE_PI) * 0.75f;
 
 float lsinf(float x) {
 	if (x < 0.0f || x > PIF) {
 		return (float)(FP_NAN);
 	}
 
-	if (x < QPIF) {
-		return logf(sinf(x));
+	if (x > QPIF && x < TQPIF) {
+		float c = cosf(x);
+		return log1pf(-c * c) * 0.5f;	
 	}
 	else {
-		float c = cosf(x);
-		return log1pf(-c * c) * 0.5f;
+		return logf(sinf(x));
 	}
 }
 
@@ -37,12 +42,12 @@ double lsin(double x) {
 		return (double)(FP_NAN);
 	}
 
-	if (x < QPI) {
-		return log(sin(x));
-	}
-	else {
+	if (x > QPI && x < TQPI) {
 		double c = cos(x);
 		return log1p(-c * c) * 0.5;
+	}
+	else {
+		return log(sin(x));
 	}
 }
 
@@ -51,12 +56,12 @@ long double lsinl(long double x) {
 		return (long double)(FP_NAN);
 	}
 
-	if (x < QPIL) {
-		return logl(sinl(x));
-	}
-	else {
+	if (x > QPIL && x < TQPIL) {
 		long double c = cosl(x);
 		return log1pl(-c * c) * 0.5l;
+	}
+	else {
+		return logl(sinl(x));
 	}
 }
 
