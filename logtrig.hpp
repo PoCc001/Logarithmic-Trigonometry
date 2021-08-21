@@ -10,14 +10,30 @@
 
 extern float lsin(float) noexcept;
 extern long double lsin(long double) noexcept;
+extern float l10sin(float) noexcept;
+extern long double l10sin(long double) noexcept;
+extern float l2sin(float) noexcept;
+extern long double l2sin(long double) noexcept;
 
 extern float lcos(float) noexcept;
 extern long double lcos(long double) noexcept;
+extern float l10cos(float) noexcept;
+extern long double l10cos(long double) noexcept;
+extern float l2cos(float) noexcept;
+extern long double l2cos(long double) noexcept;
 
 extern float ltan(float) noexcept;
 extern long double ltan(long double) noexcept;
+extern float l10tan(float) noexcept;
+extern long double l10tan(long double) noexcept;
+extern float l2tan(float) noexcept;
+extern long double l2tan(long double) noexcept;
 
 extern float lcot(float) noexcept;
 extern long double lcot(long double) noexcept;
+extern float l10cot(float) noexcept;
+extern long double l10cot(long double) noexcept;
+extern float l2cot(float) noexcept;
+extern long double l2cot(long double) noexcept;
 
 #endif
