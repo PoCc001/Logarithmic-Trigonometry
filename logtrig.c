@@ -11,6 +11,14 @@
 #define INLINE_PI 3.1415926535897932384626
 #define INLINE_LGE_HALF 0.217147240951625913826 // log10(E) * 0.5
 #define INLINE_LDE_HALF 0.721347520444481703680 // log2(E) * 0.5
+#define INLINE_NAN_BITS_DOUBLE 0x7fffffffffffffffULL // 64-bit NaN
+
+typedef union float_to_int {
+	unsigned long long i;
+	double f;	// assumes that double is a 64-bit floating-point type
+} float_int;
+
+const float_int NAN_UNION = {INLINE_NAN_BITS_DOUBLE};
 
 const long double PIL = (long double)(INLINE_PI);
 const long double HPIL = (long double)(INLINE_PI) * 0.5l;
@@ -18,22 +26,25 @@ const long double QPIL = (long double)(INLINE_PI) * 0.25l;
 const long double TQPIL = (long double)(INLINE_PI) * 0.75l;
 const long double L10D2L = (long double)(INLINE_LGE_HALF);
 const long double L2D2L = (long double)(INLINE_LDE_HALF);
+const long double NANL = (long double)(NAN_UNION.f);
 const double PI = (double)(INLINE_PI);
 const double HPI = (double)(INLINE_PI) * 0.5;
 const double QPI = (double)(INLINE_PI) * 0.25;
 const double TQPI = (double)(INLINE_PI) * 0.75;
 const double L10D2 = (double)(INLINE_LGE_HALF);
 const double L2D2 = (double)(INLINE_LDE_HALF);
+const double NAN = (double)(NAN_UNION.f);
 const float PIF = (float)(INLINE_PI);
 const float HPIF = (float)(INLINE_PI) * 0.5f;
 const float QPIF = (float)(INLINE_PI) * 0.25f;
 const float TQPIF = (float)(INLINE_PI) * 0.75f;
 const float L10D2F = (float)(INLINE_LGE_HALF);
 const float L2D2F = (float)(INLINE_LDE_HALF);
+const float NANF = (float)(NAN_UNION.f);
 
 float lsinf(float x) {
 	if (x < 0.0f || x > PIF) {
-		return (float)(FP_NAN);
+		return NANF;
 	}
 
 	if (x > QPIF && x < TQPIF) {
@@ -47,7 +58,7 @@ float lsinf(float x) {
 
 float l10sinf(float x) {
 	if (x < 0.0f || x > PIF) {
-		return (float)(FP_NAN);
+		return NANF;
 	}
 
 	if (x > QPIF && x < TQPIF) {
@@ -61,7 +72,7 @@ float l10sinf(float x) {
 
 float l2sinf(float x) {
 	if (x < 0.0f || x > PIF) {
-		return (float)(FP_NAN);
+		return NANF;
 	}
 
 	if (x > QPIF && x < TQPIF) {
@@ -75,7 +86,7 @@ float l2sinf(float x) {
 
 double lsin(double x) {
 	if (x < 0.0 || x > PI) {
-		return (double)(FP_NAN);
+		return NAN;
 	}
 
 	if (x > QPI && x < TQPI) {
@@ -89,7 +100,7 @@ double lsin(double x) {
 
 double l10sin(double x) {
 	if (x < 0.0 || x > PI) {
-		return (double)(FP_NAN);
+		return NAN;
 	}
 
 	if (x > QPI && x < TQPI) {
@@ -103,7 +114,7 @@ double l10sin(double x) {
 
 double l2sin(double x) {
 	if (x < 0.0 || x > PI) {
-		return (double)(FP_NAN);
+		return NAN;
 	}
 
 	if (x > QPI && x < TQPI) {
@@ -117,7 +128,7 @@ double l2sin(double x) {
 
 long double lsinl(long double x) {
 	if (x < 0.0l || x > PIL) {
-		return (long double)(FP_NAN);
+		return NANL;
 	}
 
 	if (x > QPIL && x < TQPIL) {
@@ -131,7 +142,7 @@ long double lsinl(long double x) {
 
 long double l10sinl(long double x) {
 	if (x < 0.0l || x > PIL) {
-		return (long double)(FP_NAN);
+		return NANL;
 	}
 
 	if (x > QPIL && x < TQPIL) {
@@ -145,7 +156,7 @@ long double l10sinl(long double x) {
 
 long double l2sinl(long double x) {
 	if (x < 0.0l || x > PIL) {
-		return (long double)(FP_NAN);
+		return NANL;
 	}
 
 	if (x > QPIL && x < TQPIL) {
@@ -159,7 +170,7 @@ long double l2sinl(long double x) {
 
 float lcosf(float x) {
 	if (x < -HPIF || x > HPIF) {
-		return (float)(FP_NAN);
+		return NANF;
 	}
 
 	if (x > -QPIF && x < QPIF) {
@@ -173,7 +184,7 @@ float lcosf(float x) {
 
 float l10cosf(float x) {
 	if (x < -HPIF || x > HPIF) {
-		return (float)(FP_NAN);
+		return NANF;
 	}
 
 	if (x > -QPIF && x < QPIF) {
@@ -187,7 +198,7 @@ float l10cosf(float x) {
 
 float l2cosf(float x) {
 	if (x < -HPIF || x > HPIF) {
-		return (float)(FP_NAN);
+		return NANF;
 	}
 
 	if (x > -QPIF && x < QPIF) {
@@ -201,7 +212,7 @@ float l2cosf(float x) {
 
 double lcos(double x) {
 	if (x < -HPI || x > HPI) {
-		return (double)(FP_NAN);
+		return NAN;
 	}
 
 	if (x > -QPI && x < QPI) {
@@ -215,7 +226,7 @@ double lcos(double x) {
 
 double l10cos(double x) {
 	if (x < -HPI || x > HPI) {
-		return (double)(FP_NAN);
+		return NAN;
 	}
 
 	if (x > -QPI && x < QPI) {
@@ -229,7 +240,7 @@ double l10cos(double x) {
 
 double l2cos(double x) {
 	if (x < -HPI || x > HPI) {
-		return (double)(FP_NAN);
+		return NAN;
 	}
 
 	if (x > -QPI && x < QPI) {
@@ -243,7 +254,7 @@ double l2cos(double x) {
 
 long double lcosl(long double x) {
 	if (x < -HPIL || x > HPIL) {
-		return (long double)(FP_NAN);
+		return NANL;
 	}
 
 	if (x > -QPIL && x < QPIL) {
@@ -257,7 +268,7 @@ long double lcosl(long double x) {
 
 long double l10cosl(long double x) {
 	if (x < -HPIL || x > HPIL) {
-		return (long double)(FP_NAN);
+		return NANL;
 	}
 
 	if (x > -QPIL && x < QPIL) {
@@ -271,7 +282,7 @@ long double l10cosl(long double x) {
 
 long double l2cosl(long double x) {
 	if (x < -HPIL || x > HPIL) {
-		return (long double)(FP_NAN);
+		return NANL;
 	}
 
 	if (x > -QPIL && x < QPIL) {
@@ -285,7 +296,7 @@ long double l2cosl(long double x) {
 
 float ltanf(float x) {
 	if (x < 0.0f || x > HPIF) {
-		return (float)(FP_NAN);
+		return NANF;
 	}
 
 	if (x > 0.7f && x < 0.9f) {
@@ -300,7 +311,7 @@ float ltanf(float x) {
 
 float l10tanf(float x) {
 	if (x < 0.0f || x > HPIF) {
-		return (float)(FP_NAN);
+		return NANF;
 	}
 
 	if (x > 0.7f && x < 0.9f) {
@@ -315,7 +326,7 @@ float l10tanf(float x) {
 
 float l2tanf(float x) {
 	if (x < 0.0f || x > HPIF) {
-		return (float)(FP_NAN);
+		return NANF;
 	}
 
 	if (x > 0.7f && x < 0.9f) {
@@ -330,7 +341,7 @@ float l2tanf(float x) {
 
 double ltan(double x) {
 	if (x < 0.0 || x > HPI) {
-		return (double)(FP_NAN);
+		return NAN;
 	}
 
 	if (x > 0.7 && x < 0.9) {
@@ -345,7 +356,7 @@ double ltan(double x) {
 
 double l10tan(double x) {
 	if (x < 0.0 || x > HPI) {
-		return (double)(FP_NAN);
+		return NAN;
 	}
 
 	if (x > 0.7 && x < 0.9) {
@@ -360,7 +371,7 @@ double l10tan(double x) {
 
 double l2tan(double x) {
 	if (x < 0.0 || x > HPI) {
-		return (double)(FP_NAN);
+		return NAN;
 	}
 
 	if (x > 0.7 && x < 0.9) {
@@ -375,7 +386,7 @@ double l2tan(double x) {
 
 long double ltanl(long double x) {
 	if (x < 0.0l || x > HPIL) {
-		return (long double)(FP_NAN);
+		return NANL;
 	}
 
 	if (x > 0.7l && x < 0.9l) {
@@ -390,7 +401,7 @@ long double ltanl(long double x) {
 
 long double l10tanl(long double x) {
 	if (x < 0.0l || x > HPIL) {
-		return (long double)(FP_NAN);
+		return NANL;
 	}
 
 	if (x > 0.7l && x < 0.9l) {
@@ -405,7 +416,7 @@ long double l10tanl(long double x) {
 
 long double l2tanl(long double x) {
 	if (x < 0.0l || x > HPIL) {
-		return (long double)(FP_NAN);
+		return NANL;
 	}
 
 	if (x > 0.7l && x < 0.9l) {
@@ -420,7 +431,7 @@ long double l2tanl(long double x) {
 
 float lcotf(float x) {
 	if (x < 0.0f || x > HPIF) {
-		return (float)(FP_NAN);
+		return NANF;
 	}
 
 	if (x > 0.7f && x < 0.9f) {
@@ -435,7 +446,7 @@ float lcotf(float x) {
 
 float l10cotf(float x) {
 	if (x < 0.0f || x > HPIF) {
-		return (float)(FP_NAN);
+		return NANF;
 	}
 
 	if (x > 0.7f && x < 0.9f) {
@@ -450,7 +461,7 @@ float l10cotf(float x) {
 
 float l2cotf(float x) {
 	if (x < 0.0f || x > HPIF) {
-		return (float)(FP_NAN);
+		return NANF;
 	}
 
 	if (x > 0.7f && x < 0.9f) {
@@ -465,7 +476,7 @@ float l2cotf(float x) {
 
 double lcot(double x) {
 	if (x < 0.0 || x > HPI) {
-		return (double)(FP_NAN);
+		return NAN;
 	}
 
 	if (x > 0.7 && x < 0.9) {
@@ -480,7 +491,7 @@ double lcot(double x) {
 
 double l10cot(double x) {
 	if (x < 0.0 || x > HPI) {
-		return (double)(FP_NAN);
+		return NAN;
 	}
 
 	if (x > 0.7 && x < 0.9) {
@@ -495,7 +506,7 @@ double l10cot(double x) {
 
 double l2cot(double x) {
 	if (x < 0.0 || x > HPI) {
-		return (double)(FP_NAN);
+		return NAN;
 	}
 
 	if (x > 0.7 && x < 0.9) {
@@ -510,7 +521,7 @@ double l2cot(double x) {
 
 long double lcotl(long double x) {
 	if (x < 0.0l || x > HPIL) {
-		return (long double)(FP_NAN);
+		return NANL;
 	}
 
 	if (x > 0.7l && x < 0.9l) {
@@ -525,7 +536,7 @@ long double lcotl(long double x) {
 
 long double l10cotl(long double x) {
 	if (x < 0.0l || x > HPIL) {
-		return (long double)(FP_NAN);
+		return NANL;
 	}
 
 	if (x > 0.7l && x < 0.9l) {
@@ -540,7 +551,7 @@ long double l10cotl(long double x) {
 
 long double l2cotl(long double x) {
 	if (x < 0.0l || x > HPIL) {
-		return (long double)(FP_NAN);
+		return NANL;
 	}
 
 	if (x > 0.7l && x < 0.9l) {
